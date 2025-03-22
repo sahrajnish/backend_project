@@ -36,7 +36,7 @@ const uploadOnCloudinary = async (localFilePath) => {
 }
 
 /**
- * ========================== SUMMARY OF DISCUSSION ==========================
+ * ========================== SUMMARY  ================================
  * 1️⃣ When a user uploads a file on a website, the file first reaches the backend server.
  * 2️⃣ Multer is used to handle this upload, temporarily storing the file in a folder on the server.
  * 3️⃣ After receiving the file, the backend uploads it to Cloudinary.

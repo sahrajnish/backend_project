@@ -18,7 +18,7 @@ export const upload = multer({
 });
 
 /*
-    SUMMARY OF OUR DISCUSSION:
+    SUMMARY:
 
     1️⃣ `req` (request object) is automatically passed to the function. 
        - It contains details about the user making the request.
