@@ -1,5 +1,3 @@
-# 📌 YouTube Project  
-
 ## 🚀 Dependencies  
 
 ### 1️⃣ `cookie-parser`  
