@@ -49,4 +49,9 @@ app.use(express.static("public"))
 //    - If session is invalid → Return generic data or request re-login.
 app.use(cookieParser())
 
+// routes import
+import userRouter from "./routes/user.routes.js";
+
+app.use("/api/v1/users", userRouter);
+
 export default app;
