@@ -7,27 +7,32 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 const registerUser = asyncHandler( async (req, res) => {
     // get details from req.body coming from frontend
     const { fullName, username, email, password } = req.body
-    console.log(request.body);
+    console.log(req.body);
 
     // check if any detail is empty or not.
     if(
-        [fullName, username, email, password].some((fields) => fields?.trim() === "")
+        [fullName, username, email, password].some((field) => field?.trim() === "")
     ) {
         throw new ApiError(400, "All fields are required")
     }
 
     // check if user already exists with same email or username. 
-    const userExisted = User.findOne({
+    const userExisted = await User.findOne({
         $or: [{username}, {email}]
     })
     if(userExisted) {
         throw new ApiError(409, "User with email or username already exists.")
     }
-    console.log(userExisted);
+    // console.log(userExisted);
 
     // upload avatar to backend server and check for avatar file uploaded on backend server.
     const avatarLocalPath = req.files?.avatar[0]?.path
-    const coverImageLocalPath = req.files?.coverImage[0]?.path
+    let coverImageLocalPath;
+    if(Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
+    console.log(coverImageLocalPath);
+
     if(!avatarLocalPath) {
         throw new ApiError(400, "Avatar file is required")
     }
@@ -45,7 +50,7 @@ const registerUser = asyncHandler( async (req, res) => {
         email,
         username: username.toLowerCase(),
         avatar: avatar.url,
-        coverImage: coverImage.url || "",
+        coverImage: coverImage?.url || "",
         password
     })
 
@@ -57,7 +62,7 @@ const registerUser = asyncHandler( async (req, res) => {
         throw new ApiError(500, "Something went wrong while registering user.")
     }
 
-    return res.status(200).json(
+    return res.status(201).json(
         new ApiResponse(200, createdUser, "User registered successfully.")
     )
 } )
